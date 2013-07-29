@@ -8,7 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
+
 public class StatusActivity extends Activity implements OnClickListener {
+	private static final String TAG = "StatusActivity";
 	private Button buttonTweet;
 	private EditText editStatus;
 
@@ -26,7 +30,16 @@ public class StatusActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		String status = editStatus.getText().toString();
-		Log.d("StatusActivity", "onClicked with status: "+status);
+		
+		YambaClient yamba = new YambaClient("student","password");
+		try {
+			yamba.postStatus(status);
+		} catch (YambaClientException e) {
+			Log.e(TAG, "Failed to post");
+			e.printStackTrace();
+		}
+		
+		Log.d(TAG, "onClicked with status: "+status);
 	}
 
 
