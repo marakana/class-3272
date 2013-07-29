@@ -2,11 +2,13 @@ package com.symantec.yamba;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,24 +28,26 @@ public class StatusActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 		setContentView(R.layout.activity_status);
 
 		buttonTweet = (Button) findViewById(R.id.button_tweet);
 		editStatus = (EditText) findViewById(R.id.edit_status);
 		textCount = (TextView) findViewById(R.id.text_count);
-		
+
 		editStatus.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
 				int count = 140 - editStatus.length();
 				textCount.setText(Integer.toString(count));
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 			}
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
@@ -55,7 +59,7 @@ public class StatusActivity extends Activity {
 			public void onClick(View v) {
 				String status = editStatus.getText().toString();
 				new PostTask().execute(status);
- 
+
 				Log.d(TAG, "onClicked with status: " + status);
 			}
 		});
@@ -63,11 +67,12 @@ public class StatusActivity extends Activity {
 
 	private final class PostTask extends AsyncTask<String, Void, String> {
 		ProgressDialog dialog;
-		
+
 		// Runs on the UI thread prior to doInBackground()
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(StatusActivity.this, "Posting...", "Please wait");
+			dialog = ProgressDialog.show(StatusActivity.this, "Posting...",
+					"Please wait");
 		}
 
 		// Executes on a non-UI thread
@@ -85,14 +90,28 @@ public class StatusActivity extends Activity {
 			}
 			return message;
 		}
-		
+
 		// Executes on UI thread, after doInBackground()
 		@Override
 		protected void onPostExecute(String result) {
 			dialog.dismiss();
-			
-			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_LONG).show();
+
+			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			startActivity(new Intent(this, MainActivity.class).addFlags(
+					Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(
+					Intent.FLAG_ACTIVITY_NEW_TASK));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 }
