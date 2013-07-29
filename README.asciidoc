@@ -1,0 +1,11 @@
+class-3272
+==========
+
+Advanced Android in Culver City
+
+== Parking Lot
+
+* NDK
+* Security
+* Testing: Unit, Stress, Functional, Profiling
+* Optimization: battery
