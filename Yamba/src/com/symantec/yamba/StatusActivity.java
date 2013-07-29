@@ -55,7 +55,7 @@ public class StatusActivity extends Activity {
 			public void onClick(View v) {
 				String status = editStatus.getText().toString();
 				new PostTask().execute(status);
-
+ 
 				Log.d(TAG, "onClicked with status: " + status);
 			}
 		});
