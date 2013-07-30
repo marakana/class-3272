@@ -1,10 +1,13 @@
 package com.symantec.yamba;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.util.Log;
 
 public class StatusProvider extends ContentProvider {
 	private static final String TAG = "StatusProvider";
@@ -12,10 +15,10 @@ public class StatusProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		dbHelper = new DbHelper( getContext() );
-		return (dbHelper==null)?false:true;
+		dbHelper = new DbHelper(getContext());
+		return (dbHelper == null) ? false : true;
 	}
- 
+
 	@Override
 	public String getType(Uri uri) {
 		// TODO Auto-generated method stub
@@ -25,10 +28,18 @@ public class StatusProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		long rowId = db.insertWithOnConflict(StatusContract.TABLE, null,
+				values, SQLiteDatabase.CONFLICT_REPLACE);
+		if (rowId > 0 ) {
+			Uri ret = ContentUris.withAppendedId(uri,
+					values.getAsLong(StatusContract.Column.ID));
+			Log.d(TAG, "inserted uri: "+ret);
+			return ret;
+		} else {
+			throw new SQLiteException("Failed to insert uri: "+uri);
+		}
 		
-		db.insert(StatusContract.TABLE, null, values);
-		
-		return null;
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class StatusContract {
+	
+	// ALL: 		content://com.symantec.yamba.provider.status/status
+	// SPECIFIC:content://com.symantec.yamba.provider.status/status/47
 
 	// DB specific constants
 	public static final String DB_NAME = "timeline.db";

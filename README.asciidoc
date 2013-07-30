@@ -11,3 +11,5 @@ Advanced Android in Culver City
 * Testing: Unit, Stress, Functional, Profiling
 * Optimization: battery
 * AntiVirus
+* Device Admin
+* Binder
