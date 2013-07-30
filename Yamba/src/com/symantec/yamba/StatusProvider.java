@@ -3,14 +3,25 @@ package com.symantec.yamba;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class StatusProvider extends ContentProvider {
 	private static final String TAG = "StatusProvider";
+	private static final UriMatcher MATCHER = new UriMatcher(
+			UriMatcher.NO_MATCH);
+	static {
+		MATCHER.addURI(StatusContract.AUTHORITY, StatusContract.TABLE,
+				StatusContract.STATUS_DIR);
+		MATCHER.addURI(StatusContract.AUTHORITY, StatusContract.TABLE + "/#",
+				StatusContract.STATUS_ITEM);
+	}
+
 	private DbHelper dbHelper;
 
 	@Override
@@ -27,19 +38,24 @@ public class StatusProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+		// Assert valid uri
+		if (MATCHER.match(uri) != StatusContract.STATUS_DIR) {
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+		}
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		long rowId = db.insertWithOnConflict(StatusContract.TABLE, null,
 				values, SQLiteDatabase.CONFLICT_REPLACE);
-		if (rowId > 0 ) {
+		if (rowId > 0) {
 			Uri ret = ContentUris.withAppendedId(uri,
 					values.getAsLong(StatusContract.Column.ID));
-			Log.d(TAG, "inserted uri: "+ret);
+			Log.d(TAG, "inserted uri: " + ret);
 			return ret;
 		} else {
-			throw new SQLiteException("Failed to insert uri: "+uri);
+			throw new SQLiteException("Failed to insert uri: " + uri);
 		}
-		
+
 	}
 
 	@Override
@@ -49,11 +65,30 @@ public class StatusProvider extends ContentProvider {
 		return 0;
 	}
 
+	// uri: /status/47    selection: " user='?' " selectionArgs: "bob"
+	// where:  WHERE id=47 AND user='bob'
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		String where;
+		switch (MATCHER.match(uri)) {
+		case StatusContract.STATUS_ITEM:
+			long id = ContentUris.parseId(uri);
+			where = String
+					.format(" %s=%d ", StatusContract.Column.ID, id);
+			if (!TextUtils.isEmpty(selection)) {
+				where = where + " AND " + selection;
+			}
+			break;
+		case StatusContract.STATUS_DIR:
+			where = selection;
+			break;
+		default:
+			throw new SQLiteException("Failed to delete uri: " + uri);
+		}
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		int rows = db.delete(StatusContract.TABLE, selection, selectionArgs);
-		Log.d(TAG, "deleted rows: "+rows);
+		int rows = db.delete(StatusContract.TABLE, where, selectionArgs);
+		Log.d(TAG, "deleted rows: " + rows);
 		return rows;
 	}
 
