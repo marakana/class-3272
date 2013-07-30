@@ -17,6 +17,12 @@
         android:title="@string/refresh"
         android:icon="@android:drawable/ic_menu_rotate">
     </item>
+    <item
+        android:id="@+id/action_purge"
+        android:showAsAction="never"
+        android:title="@string/purge"
+        android:icon="@android:drawable/ic_menu_delete">
+    </item>
     
 
 </menu>

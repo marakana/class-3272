@@ -51,8 +51,10 @@ public class StatusProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int rows = db.delete(StatusContract.TABLE, selection, selectionArgs);
+		Log.d(TAG, "deleted rows: "+rows);
+		return rows;
 	}
 
 	@Override
