@@ -2,17 +2,20 @@ package com.symantec.yamba;
 
 import java.util.List;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClient.Status;
 import com.marakana.android.yamba.clientlib.YambaClientException;
 
-public class RefreshService extends Service {
+public class RefreshService extends IntentService {
 	private static final String TAG = "RefreshService";
+	
+	public RefreshService() {
+		super(TAG);
+	}
 
 	@Override
 	public void onCreate() {
@@ -20,10 +23,11 @@ public class RefreshService extends Service {
 		Log.d(TAG, "onCreated");
 	}
 
+	// Executes in a worker thread
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	protected void onHandleIntent(Intent intent) {
 		Log.d(TAG, "onStarted");
-
+		
 		YambaClient yamba = new YambaClient("student", "password");
 		try {
 			List<Status> timeline = yamba.getTimeline(20);
@@ -36,13 +40,6 @@ public class RefreshService extends Service {
 			Log.e(TAG, "Failed to fetch timeline", e);
 			e.printStackTrace();
 		}
-
-		return super.onStartCommand(intent, flags, startId);
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
 	}
 
 }
