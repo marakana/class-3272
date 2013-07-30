@@ -65,16 +65,15 @@ public class StatusProvider extends ContentProvider {
 		return 0;
 	}
 
-	// uri: /status/47    selection: " user='?' " selectionArgs: "bob"
-	// where:  WHERE id=47 AND user='bob'
+	// uri: /status/47 selection: " user='?' " selectionArgs: "bob"
+	// where: WHERE id=47 AND user='bob'
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		String where;
 		switch (MATCHER.match(uri)) {
 		case StatusContract.STATUS_ITEM:
 			long id = ContentUris.parseId(uri);
-			where = String
-					.format(" %s=%d ", StatusContract.Column.ID, id);
+			where = String.format(" %s=%d ", StatusContract.Column.ID, id);
 			if (!TextUtils.isEmpty(selection)) {
 				where = where + " AND " + selection;
 			}
@@ -92,11 +91,18 @@ public class StatusProvider extends ContentProvider {
 		return rows;
 	}
 
+	// SELECT user, message FROM status WHERE id=47 AND user='bob' ORDER BY
+	// created_at DESC;535
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		// TODO Auto-generated method stub
-		return null;
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+		Cursor cursor = db.query(StatusContract.TABLE, projection, selection, selectionArgs,
+				null, null, sortOrder);
+		
+		Log.d(TAG, "queried rows: "+cursor.getCount());
+		return cursor;
 	}
 
 }
