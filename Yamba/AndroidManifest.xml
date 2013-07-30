@@ -33,6 +33,12 @@
 
         <service android:name="com.symantec.yamba.RefreshService" >
         </service>
+
+        <provider
+            android:name="com.symantec.yamba.StatusProvider"
+            android:authorities="com.symantec.yamba.provider.status"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>
