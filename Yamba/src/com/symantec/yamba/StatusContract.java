@@ -11,7 +11,7 @@ public class StatusContract {
 	public static final String TABLE = "status";
 
 	// Provider specific constants
-	// content://com.symantec.yamba.StatusProvider/status
+	// content://com.symantec.yamba.provider.status/status
 	public static final String AUTHORITY = "com.symantec.yamba.provider.status";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE);
