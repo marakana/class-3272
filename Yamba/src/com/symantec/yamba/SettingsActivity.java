@@ -1,17 +1,18 @@
 package com.symantec.yamba;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		addPreferencesFromResource(R.xml.settings);
+
+		setContentView(R.layout.activity_settings);
 	}
 
 	@Override
