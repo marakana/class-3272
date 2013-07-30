@@ -5,6 +5,7 @@ Advanced Android in Culver City
 
 == Parking Lot
 
+* Fragments
 * NDK
 * Security
 * Testing: Unit, Stress, Functional, Profiling
