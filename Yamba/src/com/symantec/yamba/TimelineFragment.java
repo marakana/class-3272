@@ -77,7 +77,13 @@ public class TimelineFragment extends ListFragment {
 	};
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		startActivity(new Intent(getActivity(), DetailsActivity.class)
-				.putExtra("id", id));
+		DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_details);
+		if (detailsFragment != null && detailsFragment.isVisible()) {
+			detailsFragment.setId(id);
+		} else {
+			startActivity(new Intent(getActivity(), DetailsActivity.class)
+					.putExtra("id", id));
+		}
 	};
 }

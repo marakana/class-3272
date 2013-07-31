@@ -24,10 +24,18 @@ public class DetailsFragment extends Fragment {
 		textMessage = (TextView) view.findViewById(R.id.text_message);
 		textCreatedAt = (TextView) view.findViewById(R.id.text_createdAt);
 
+		setId(-1); // To clear defaults
 		return view;
 	}
 
 	public void setId(long id) {
+		if (id == -1) {
+			textUser.setText("");
+			textMessage.setText("");
+			textCreatedAt.setText("");
+			return;
+		}
+		
 		// Get the data
 		Uri uri = ContentUris.withAppendedId(StatusContract.CONTENT_URI, id);
 		Cursor cursor = getActivity().getContentResolver().query(uri, null,
@@ -44,7 +52,6 @@ public class DetailsFragment extends Fragment {
 			textCreatedAt.setText(DateUtils
 					.getRelativeTimeSpanString(createdAt));
 		}
-
 		Log.d("DetailsFragment", "setId: " + id);
 	}
 }

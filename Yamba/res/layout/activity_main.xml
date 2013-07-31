@@ -13,6 +13,6 @@
         android:name="com.symantec.yamba.TimelineFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/list_item" />
+        tools:layout="@android:layout/list_content" />
 
 </FrameLayout>
