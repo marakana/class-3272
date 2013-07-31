@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.widget.SimpleCursorAdapter;
 
 public class TimelineFragment extends ListFragment {
-	private static final String[] FROM = { StatusContract.Column.USER, StatusContract.Column.MESSAGE };
-	private static final int[] TO = { android.R.id.text1, android.R.id.text2 };	
+	private static final String[] FROM = { StatusContract.Column.USER,
+			StatusContract.Column.MESSAGE, StatusContract.Column.CREATED_AT };
+	private static final int[] TO = { R.id.text_user, R.id.text_message,
+			R.id.text_createdAt };
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -17,8 +19,8 @@ public class TimelineFragment extends ListFragment {
 				StatusContract.CONTENT_URI, null, null, null, null);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
-				android.R.layout.simple_list_item_2, cursor, FROM, TO, 0);
-		
+				R.layout.list_item, cursor, FROM, TO, 0);
+
 		setListAdapter(adapter);
 	}
 }
