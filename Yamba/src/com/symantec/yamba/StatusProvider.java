@@ -33,8 +33,14 @@ public class StatusProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (MATCHER.match(uri)) {
+		case StatusContract.STATUS_DIR:
+			return StatusContract.STATUS_TYPE_DIR;
+		case StatusContract.STATUS_ITEM:
+			return StatusContract.STATUS_TYPE_ITEM;
+		default:
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+		}
 	}
 
 	@Override
@@ -112,11 +118,10 @@ public class StatusProvider extends ContentProvider {
 			throw new IllegalArgumentException("Invalid uri: " + uri);
 		}
 
-		
-		if( TextUtils.isEmpty(sortOrder) ) {
+		if (TextUtils.isEmpty(sortOrder)) {
 			sortOrder = StatusContract.DEFAULT_SORT;
 		}
-		
+
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 
 		Cursor cursor = queryBuilder.query(db, projection, selection,
