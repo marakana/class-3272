@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_user"
-        android:autoLink="all"
         android:text="Checkin out this awesome news from http://slashdot.org/"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

@@ -39,6 +39,11 @@
             android:authorities="com.symantec.yamba.provider.status"
             android:exported="false" >
         </provider>
+
+        <activity
+            android:name="com.symantec.yamba.DetailsActivity"
+            android:label="@string/title_activity_details" >
+        </activity>
     </application>
 
 </manifest>

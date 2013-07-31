@@ -3,11 +3,13 @@ package com.symantec.yamba;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
@@ -72,5 +74,10 @@ public class TimelineFragment extends ListFragment {
 			return true;
 		}
 
+	};
+
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		startActivity(new Intent(getActivity(), DetailsActivity.class)
+				.putExtra("id", id));
 	};
 }

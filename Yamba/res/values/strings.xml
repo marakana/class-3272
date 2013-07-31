@@ -13,5 +13,6 @@
     <string name="password">Password</string>
     <string name="password_summary">Shh, what\'s your password?</string>
     <string name="purge">Purge</string>
-    
+    <string name="title_activity_details">Status Details</string>
+
 </resources>
