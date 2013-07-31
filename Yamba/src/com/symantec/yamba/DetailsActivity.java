@@ -6,13 +6,20 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 public class DetailsActivity extends Activity {
+	private DetailsFragment detailsFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		setContentView(R.layout.activity_details);
+		if (detailsFragment == null)
+			detailsFragment = new DetailsFragment();
+
+		getFragmentManager()
+				.beginTransaction()
+				.replace(android.R.id.content, detailsFragment,
+						DetailsFragment.class.getSimpleName()).commit();
 	}
 
 	@Override
@@ -21,8 +28,6 @@ public class DetailsActivity extends Activity {
 
 		long id = getIntent().getLongExtra("id", -1);
 
-		DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager()
-				.findFragmentById(R.id.fragment_details);
 		detailsFragment.setId(id);
 	}
 

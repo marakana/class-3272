@@ -12,7 +12,12 @@ public class SettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		setContentView(R.layout.activity_settings);
+		if (savedInstanceState == null) {
+			getFragmentManager()
+					.beginTransaction()
+					.add(android.R.id.content, new SettingsFragment(),
+							SettingsFragment.class.getSimpleName()).commit();
+		}
 	}
 
 	@Override
