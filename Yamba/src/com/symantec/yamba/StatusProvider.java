@@ -112,6 +112,11 @@ public class StatusProvider extends ContentProvider {
 			throw new IllegalArgumentException("Invalid uri: " + uri);
 		}
 
+		
+		if( TextUtils.isEmpty(sortOrder) ) {
+			sortOrder = StatusContract.DEFAULT_SORT;
+		}
+		
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 
 		Cursor cursor = queryBuilder.query(db, projection, selection,
