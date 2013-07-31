@@ -3,7 +3,11 @@ package com.symantec.yamba;
 import android.app.ListFragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 
 public class TimelineFragment extends ListFragment {
 	private static final String[] FROM = { StatusContract.Column.USER,
@@ -20,7 +24,25 @@ public class TimelineFragment extends ListFragment {
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
 				R.layout.list_item, cursor, FROM, TO, 0);
+		adapter.setViewBinder(VIEW_BINDER);
 
 		setListAdapter(adapter);
 	}
+	
+	private static final ViewBinder VIEW_BINDER = new ViewBinder() {
+
+		@Override 
+		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+			if( view.getId() != R.id.text_createdAt )
+				return false;
+			
+			// Custom binding for timestamp
+			long timestamp = cursor.getLong(columnIndex);
+			CharSequence relTime = DateUtils.getRelativeTimeSpanString(timestamp);
+			((TextView)view).setText(relTime);
+			
+			return true;
+		}
+		
+	};
 }
