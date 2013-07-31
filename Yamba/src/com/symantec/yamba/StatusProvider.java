@@ -57,6 +57,7 @@ public class StatusProvider extends ContentProvider {
 		if (rowId > 0) {
 			Uri ret = ContentUris.withAppendedId(uri,
 					values.getAsLong(StatusContract.Column.ID));
+			getContext().getContentResolver().notifyChange(ret, null);
 			Log.d(TAG, "inserted uri: " + ret);
 			return ret;
 		} else {
@@ -94,6 +95,7 @@ public class StatusProvider extends ContentProvider {
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int rows = db.delete(StatusContract.TABLE, where, selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
 		Log.d(TAG, "deleted rows: " + rows);
 		return rows;
 	}
@@ -126,7 +128,7 @@ public class StatusProvider extends ContentProvider {
 
 		Cursor cursor = queryBuilder.query(db, projection, selection,
 				selectionArgs, null, null, sortOrder);
-
+		cursor.setNotificationUri( getContext().getContentResolver(), uri);
 		Log.d(TAG, "queried rows: " + cursor.getCount());
 		return cursor;
 	}
