@@ -50,6 +50,9 @@
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
+            <intent-filter >
+                <action android:name="com.symantec.yamba.action.UPDATE_INTERVAL"/>
+            </intent-filter>
         </receiver>
     </application>
 
