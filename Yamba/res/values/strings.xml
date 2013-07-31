@@ -14,5 +14,7 @@
     <string name="password_summary">Shh, what\'s your password?</string>
     <string name="purge">Purge</string>
     <string name="title_activity_details">Status Details</string>
+    <string name="interval">Interval</string>
+    <string name="interval_summary">How frequently should we update the timeline?</string>
 
 </resources>

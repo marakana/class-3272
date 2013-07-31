@@ -9,6 +9,7 @@
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -44,6 +45,12 @@
             android:name="com.symantec.yamba.DetailsActivity"
             android:label="@string/title_activity_details" >
         </activity>
+        
+        <receiver android:name="com.symantec.yamba.BootReceiver">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
