@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -82,7 +83,7 @@ public class StatusProvider extends ContentProvider {
 			where = selection;
 			break;
 		default:
-			throw new SQLiteException("Failed to delete uri: " + uri);
+			throw new IllegalArgumentException("Invalid uri: " + uri);
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -96,12 +97,27 @@ public class StatusProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
+
+		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+		queryBuilder.setTables(StatusContract.TABLE);
+
+		switch (MATCHER.match(uri)) {
+		case StatusContract.STATUS_ITEM:
+			queryBuilder.appendWhere(StatusContract.Column.ID + "="
+					+ ContentUris.parseId(uri));
+			break;
+		case StatusContract.STATUS_DIR:
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+		}
+
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-		Cursor cursor = db.query(StatusContract.TABLE, projection, selection, selectionArgs,
-				null, null, sortOrder);
-		
-		Log.d(TAG, "queried rows: "+cursor.getCount());
+		Cursor cursor = queryBuilder.query(db, projection, selection,
+				selectionArgs, null, null, sortOrder);
+
+		Log.d(TAG, "queried rows: " + cursor.getCount());
 		return cursor;
 	}
 
