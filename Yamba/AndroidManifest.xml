@@ -62,6 +62,20 @@
                 <action android:name="com.symantec.yamba.action.NEW_STATUS" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.symantec.yamba.YambaWidget"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.symantec.yamba.action.NEW_STATUS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/yamba_widget" />
+        </receiver>
     </application>
 
 </manifest>
