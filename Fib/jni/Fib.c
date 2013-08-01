@@ -9,7 +9,7 @@ long fib(long n) {
 	return fib(n - 1) + fib(n - 2);
 }
 
-JNIEXPORT jlong JNICALL Java_com_symantec_fib_FibLib_fibN(JNIEnv *env,
-		jclass clazz, jlong n) {
+JNIEXPORT jlong JNICALL Java_com_symantec_fib_FibLib_fibN
+	(JNIEnv *env,jclass clazz, jlong n) {
 	return (jlong)fib((long)n);
 }
