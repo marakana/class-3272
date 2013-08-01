@@ -2,9 +2,16 @@ package com.symantec.fib;
 
 public class FibLib {
 
-	public static long fib(long n) {
+	// Java version
+	public static long fibJ(long n) {
 		if(n==0) return 0;
 		if(n==1) return 1;
-		return fib(n-1) + fib(n-2);
+		return fibJ(n-1) + fibJ(n-2);
 	}
+	
+	// Native version
+	static {
+		System.loadLibrary("Fib");
+	}
+	public static native long fibN(long n);
 }
