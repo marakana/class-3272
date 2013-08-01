@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <android/log.h>
 
 namespace com_symantec_fib {
 
@@ -16,8 +17,22 @@ namespace com_symantec_fib {
 		return (jlong) fib((long) n);
 	}
 
+	static void log(JNIEnv *env, jclass clazz, jint priority, jstring tag, jstring message) {
+		// Convert Java strings to C
+		const char *c_tag = env->GetStringUTFChars(tag, 0);
+		const char *c_message = env->GetStringUTFChars(message, 0);
+
+		// Use system log library to log
+		__android_log_print( (int)priority, c_tag, c_message);
+
+		// Release C strings
+		env->ReleaseStringUTFChars(tag, c_tag);
+		env->ReleaseStringUTFChars(message, c_message);
+	}
+
 	static JNINativeMethod method_table[] = {
-			{ "fibN", "(J)J", (void *) fibN }
+			{ "fibN", "(J)J", (void *) fibN },
+			{ "log", "(ILjava/lang/String;Ljava/lang/String;)V", (void *) log }
 	};
 
 }

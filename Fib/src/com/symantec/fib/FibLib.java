@@ -14,4 +14,6 @@ public class FibLib {
 		System.loadLibrary("Fib");
 	}
 	public static native long fibN(long n);
+	
+	public static native void log(int priority, String tag, String message);
 }
