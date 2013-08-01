@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Vibrator;
 import android.util.Log;
 
 public class NotificationReceiver extends BroadcastReceiver {
@@ -18,6 +19,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		int count = intent.getIntExtra("count", 0);
 
+		// --- Notification ---
 		String message = String.format("You have %d new tweet", count);
 		message = (count > 0) ? message + "s" : message;
 
@@ -45,6 +47,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		// Notify!
 		notificationManager.notify(NOTIFICATION_ID, notification);
+		
+		// --- Vibrate ---
+		Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+		if(vibrator.hasVibrator()) {
+			vibrator.vibrate(1000);
+		}
 
 		Log.d("NotificationReceiver", "onReceived with count: " + count);
 	}

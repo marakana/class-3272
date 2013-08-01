@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClient.Status;
@@ -36,6 +38,15 @@ public class RefreshService extends IntentService {
 				.getDefaultSharedPreferences(this);
 		String username = prefs.getString("username", "");
 		String password = prefs.getString("password", "");
+
+		// Check if username/password is set
+		if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+			Toast.makeText(this, "Please set your login info",
+					Toast.LENGTH_LONG).show();
+			startActivity(new Intent(this, SettingsActivity.class)
+					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+			return;
+		}
 
 		YambaClient yamba = new YambaClient(username, password);
 		try {

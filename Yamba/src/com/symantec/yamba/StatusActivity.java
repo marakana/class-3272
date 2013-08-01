@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
@@ -84,6 +85,13 @@ public class StatusActivity extends Activity {
 					.getDefaultSharedPreferences(StatusActivity.this);
 			String username = prefs.getString("username", "");
 			String password = prefs.getString("password", "");
+
+			// Check if username/password is set
+			if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+				startActivity(new Intent(StatusActivity.this,
+						SettingsActivity.class));
+				return "Please set your login info";
+			}
 
 			YambaClient yamba = new YambaClient(username, password);
 			String message;
