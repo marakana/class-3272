@@ -6,6 +6,7 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -40,18 +41,30 @@ public class RefreshService extends IntentService {
 		try {
 			ContentValues values = new ContentValues();
 			List<Status> timeline = yamba.getTimeline(20);
+			int count = 0;
 			for (Status status : timeline) {
 				values.clear();
 				values.put(StatusContract.Column.ID, status.getId());
 				values.put(StatusContract.Column.USER, status.getUser());
 				values.put(StatusContract.Column.MESSAGE, status.getMessage());
-				values.put(StatusContract.Column.CREATED_AT, status.getCreatedAt().getTime());
-				
-				getContentResolver().insert(StatusContract.CONTENT_URI, values);
-				
+				values.put(StatusContract.Column.CREATED_AT, status
+						.getCreatedAt().getTime());
+
+				Uri uri = getContentResolver().insert(
+						StatusContract.CONTENT_URI, values);
+
+				if (uri != null) {
+					count++;
+				}
+
 				Log.d(TAG,
 						String.format("%s: %s", status.getUser(),
 								status.getMessage()));
+			}
+
+			if (count > 0) {
+				sendBroadcast(new Intent(StatusContract.ACTION_NEW_STATUS)
+						.putExtra("count", count));
 			}
 		} catch (YambaClientException e) {
 			Log.e(TAG, "Failed to fetch timeline", e);

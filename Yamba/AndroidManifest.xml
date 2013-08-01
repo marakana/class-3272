@@ -45,13 +45,20 @@
             android:name="com.symantec.yamba.DetailsActivity"
             android:label="@string/title_activity_details" >
         </activity>
-        
-        <receiver android:name="com.symantec.yamba.BootReceiver">
-            <intent-filter >
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
+        <receiver android:name="com.symantec.yamba.BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-            <intent-filter >
-                <action android:name="com.symantec.yamba.action.UPDATE_INTERVAL"/>
+            <intent-filter>
+                <action android:name="com.symantec.yamba.action.UPDATE_INTERVAL" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.symantec.yamba.NotificationReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.symantec.yamba.action.NEW_STATUS" />
             </intent-filter>
         </receiver>
     </application>

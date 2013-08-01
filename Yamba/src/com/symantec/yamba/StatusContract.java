@@ -30,4 +30,7 @@ public class StatusContract {
 		public static final String MESSAGE = "message";
 		public static final String CREATED_AT = "created_at";
 	}
+	
+	// Actions
+	public static final String ACTION_NEW_STATUS = "com.symantec.yamba.action.NEW_STATUS"; 
 }

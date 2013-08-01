@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -53,15 +52,16 @@ public class StatusProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		long rowId = db.insertWithOnConflict(StatusContract.TABLE, null,
-				values, SQLiteDatabase.CONFLICT_REPLACE);
+				values, SQLiteDatabase.CONFLICT_IGNORE);
 		if (rowId > 0) {
 			Uri ret = ContentUris.withAppendedId(uri,
 					values.getAsLong(StatusContract.Column.ID));
 			getContext().getContentResolver().notifyChange(ret, null);
-			Log.d(TAG, "inserted uri: " + ret);
+			Log.d(TAG, "inserted uri: " + ret + " for rowId: " + rowId);
 			return ret;
 		} else {
-			throw new SQLiteException("Failed to insert uri: " + uri);
+			// Duplicate
+			return null;
 		}
 
 	}
@@ -128,7 +128,7 @@ public class StatusProvider extends ContentProvider {
 
 		Cursor cursor = queryBuilder.query(db, projection, selection,
 				selectionArgs, null, null, sortOrder);
-		cursor.setNotificationUri( getContext().getContentResolver(), uri);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		Log.d(TAG, "queried rows: " + cursor.getCount());
 		return cursor;
 	}
