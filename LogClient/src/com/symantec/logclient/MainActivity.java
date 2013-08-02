@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.symantec.logcommon.LogManager;
+import com.symantec.logcommon.LogMessage;
 
 public class MainActivity extends Activity {
 	private EditText tag, message;
@@ -25,7 +26,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void onClick(View v) {
-		logManager.log(Log.DEBUG, tag.getText().toString(), message.getText()
-				.toString());
+		LogMessage msg = new LogMessage(Log.DEBUG, tag.getText().toString(),
+				message.getText().toString());
+		logManager.logIt(msg);
 	}
 }
