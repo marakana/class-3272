@@ -5,11 +5,8 @@ Advanced Android in Culver City
 
 == Parking Lot
 
-* Fragments
-* NDK
+* Binder
 * Security
 * Testing: Unit, Stress, Functional, Profiling
-* Optimization: battery
 * AntiVirus
 * Device Admin
-* Binder

@@ -14,7 +14,16 @@ namespace com_symantec_fib {
 
 	// JNI Wrapper
 	static jlong fibN(JNIEnv *env, jclass clazz, jlong n) {
-		return (jlong) fib((long) n);
+		if(n>30) {
+			jclass clazz = env->FindClass("java/lang/IllegalArgumentException");
+			env->ThrowNew(clazz, "Can't run with n>30");
+		}
+
+		if(!env->ExceptionCheck()) {
+			return (jlong) fib((long) n);
+		} else {
+			return -1L;
+		}
 	}
 
 	static void log(JNIEnv *env, jclass clazz, jint priority, jstring tag, jstring message) {
