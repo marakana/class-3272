@@ -5,8 +5,8 @@ Advanced Android in Culver City
 
 == Parking Lot
 
-* Binder
 * Security
-* Testing: Unit, Stress, Functional, Profiling
 * AntiVirus
 * Device Admin
+
+* Testing: Unit, Stress, Functional, Profiling

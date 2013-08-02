@@ -7,15 +7,22 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
+    <permission
+        android:name="com.symantec.permission.LOG_SERVICE_BIND"
+        android:label="Permission to bind to LogService"
+        android:protectionLevel="signature" >
+    </permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-        <service android:name="com.symantec.logservice.LogService">
-            <intent-filter >
-                <action android:name="com.symantec.logcommon.ILogService"/>
+        <service
+            android:name="com.symantec.logservice.LogService"
+            android:permission="com.symantec.permission.LOG_SERVICE_BIND" >
+            <intent-filter>
+                <action android:name="com.symantec.logcommon.ILogService" />
             </intent-filter>
         </service>
     </application>
