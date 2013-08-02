@@ -16,10 +16,16 @@ public class LogManager {
 	public LogManager(Context context) {
 		this.context = context;
 
-		context.bindService( LOG_SERVICE_INTENT,
+		context.bindService(LOG_SERVICE_INTENT,
 				SERVICE_CONNECTION, Context.BIND_AUTO_CREATE);
 	}
 	
+	@Override
+	protected void finalize() throws Throwable {
+		context.unbindService(SERVICE_CONNECTION);
+		super.finalize();
+	}
+
 	private static final ServiceConnection SERVICE_CONNECTION = new ServiceConnection() {
 
 		@Override
@@ -31,16 +37,31 @@ public class LogManager {
 		public void onServiceDisconnected(ComponentName name) {
 			logService = null;
 		}
-		
+
 	};
 
+	// --- Proxy calls below ---
+	
 	public void log(int priority, String tag, String message) {
-		if(logService==null) return;
-		
+		if (logService == null)
+			return;
+
 		try {
 			logService.log(priority, tag, message);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void logIt( LogMessage msg ) {
+		if (logService == null)
+			return;
+
+		try {
+			logService.logIt(msg);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
