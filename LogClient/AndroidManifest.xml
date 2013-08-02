@@ -7,8 +7,9 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
-    
-    <uses-permission android:name="com.symantec.permission.LOG_SERVICE_BIND"/>
+
+    <uses-permission android:name="com.symantec.permission.LOG_SERVICE_BIND" />
+    <uses-permission android:name="com.symantec.permission.LOG_SERVICE_PREMIUM" />
 
     <application
         android:allowBackup="true"

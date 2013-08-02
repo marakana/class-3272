@@ -5,7 +5,6 @@ Advanced Android in Culver City
 
 == Parking Lot
 
-* Security
 * AntiVirus
 * Device Admin
 

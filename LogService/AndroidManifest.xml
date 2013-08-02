@@ -12,6 +12,11 @@
         android:label="Permission to bind to LogService"
         android:protectionLevel="signature" >
     </permission>
+    <permission
+        android:name="com.symantec.permission.LOG_SERVICE_PREMIUM"
+        android:label="Premium sevice for messages over 10 characters"
+        android:protectionLevel="signature" >
+    </permission>
 
     <application
         android:allowBackup="true"
